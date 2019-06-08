@@ -1,0 +1,115 @@
+body,
+html {
+  background: #e9ebee;
+  height: 100%;
+  margin: 0;
+}
+
+select {
+  background: #c7c7e0;
+  border: none;
+  margin-right: 12px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
+  height: 29px;
+  margin-top: 6px;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+header {
+  background: #4267b2;
+  color: white;
+  height: 42px;
+  line-height: 42px;
+  display: flex;
+  justify-content: space-around;
+}
+
+header div {
+  margin: 0 20px;
+}
+
+header div:nth-child(2) {
+  margin-left: auto;
+}
+
+footer {
+  position: relative;
+}
+
+.chat {
+  position: absolute;
+  background: white;
+  bottom: 0px;
+  right: 150px;
+  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.title {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  line-height: 18px;
+  min-width: 150px;
+  height: 18px;
+  padding: 0 0 5px 7px;
+}
+
+.chat-messages {
+  padding: 5px;
+  width: 250px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.chat-messages div {
+  background: #e9ebee;
+  margin: 3px;
+  border-radius: 3px;
+  padding: 3px;
+  max-width: 150px;
+  display: inline-block;
+}
+
+.chat-messages div.right {
+  align-self: flex-end;
+}
+.header-chat {
+  background-image: url(https://facebook.com/rsrc.php/v3/yG/r/MSGjJGW5oBb.png);
+  background-repeat: no-repeat;
+  background-size: 170px 861px;
+  background-position: -60px -332px;
+  height: 32px;
+  width: 32px;
+  margin-top: 6px;
+}
+
+.header-chat-badge {
+  position: relative;
+  display: inline-block;
+  top: -15px;
+  left: 19px;
+  background: red;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  padding: 3px;
+  line-height: 15px;
+  text-align: center;
+  color: white;
+}
+
+input {
+  margin: 3px;
+  background: transparent;
+  outline: none;
+  width: 250px;
+  border: none;
+}
