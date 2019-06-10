@@ -1,31 +1,35 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { reusable } from "reusable";
+import { createStore } from "reusable";
 import moment from "moment";
+import "moment/locale/he";
 
 export const LOCALES = {
-  enUS: "en-US",
-  heIL: "he-IL"
+  en: "en",
+  he: "he"
 };
+moment.locale(LOCALES.en);
 
-export const useLocalization = reusable(() => {
-  const [locale, setLocale] = useState(LOCALES.enUS);
+export const useLocalization = createStore(() => {
+  const [locale, setLocale] = useState(LOCALES.en);
 
   useEffect(() => {
     moment.locale(locale);
   }, [locale]);
 
-  const currentTime = useCallback(() => moment().format("L"), []);
+  const currentDate = useCallback(() => {
+    return moment().format("L");
+  }, [locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { locale, setLocale, currentTime };
+  return { locale, setLocale, currentDate };
 });
 
-export const LocalSwitcher = () => {
+export const LocaleSwitcher = () => {
   const { locale, setLocale } = useLocalization();
 
   return (
     <select value={locale} onChange={e => setLocale(e.target.value)}>
       {Object.keys(LOCALES).map(key => (
-        <option value={LOCALES[key]}>{LOCALES[key]}</option>
+        <option key={key} value={LOCALES[key]}>{LOCALES[key]}</option>
       ))}
     </select>
   );

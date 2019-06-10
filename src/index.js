@@ -1,15 +1,33 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { reusable, ReusableProvider } from "reusable";
+import React, { useState, useCallback } from "react";
+import { createStore, ReusableProvider } from "reusable";
 import ReactDOM from "react-dom";
-import { LocalSwitcher, useLocalization } from "./reusable-locale";
+import { LocaleSwitcher, useLocalization } from "./reusable-locale";
+import { generateQuote } from "./quote";
 import "./styles.css";
 
-const useChatMessages = reusable(() => {
+// const useCurrentUser = createStore(() => {
+//   return useState('Adam');
+// })
+
+const useChatMessages = () => {
+  const [messages, setMessages] = useState([
+    {text: "Hi", fromMe: false},
+    {text: "How Are You?", fromMe: false},
+    {text: "I'm Fine", fromMe: true}
+  ]);
   const [readIndex, setReadIndex] = useState(0);
-  const [messages, setMessages] = useState(["Hi", "How Are You?", "I'm Fine"]);
+    
+  // const [user, setUser] = useCurrentUser();
+  // console.log(user);
 
   const addMessage = useCallback(
-    message => setMessages(prev => [...prev, message]),
+    text => {
+      setMessages(prev => [...prev, {text, fromMe: true}]);
+      setReadIndex(prev => prev + 1);
+      setTimeout(() => {
+        setMessages(prev => [...prev, {text: generateQuote(), fromMe: false}]);
+      }, 4000)
+    },
     []
   );
   const markAsRead = useCallback(() => setReadIndex(messages.length), [
@@ -23,26 +41,26 @@ const useChatMessages = reusable(() => {
     markAsRead,
     unreadCount
   };
-});
+};
 
 const Header = () => {
-  const unreadCount = useChatMessages(state => state.unreadCount);
-  const { currentTime } = useLocalization();
+  const {unreadCount, markAsRead} = useChatMessages();
+  // const { locale } = useLocalization();
 
   return (
     <header>
-      <div>{currentTime()}</div>
+      {/* <div>{locale === 'en' ? 'Hello' : 'שלום'}</div> */}
       <div>Adam</div>
       <div>Home</div>
       <div>Create</div>
-      <div className="header-chat">
+      <div className="header-chat" onClick={markAsRead}>
         {unreadCount ? (
           <span className="header-chat-badge">{unreadCount}</span>
         ) : (
           ""
         )}
       </div>
-      <LocalSwitcher />
+      {/* <LocaleSwitcher /> */}
     </header>
   );
 };
@@ -57,11 +75,6 @@ const Footer = () => {
       markAsRead();
     }
   };
-  useEffect(() => {
-    if (isOpen && unreadCount) {
-      markAsRead();
-    }
-  }, [unreadCount, isOpen, markAsRead]);
 
   const handleChange = useCallback(e => {
     setValue(e.target.value);
@@ -79,14 +92,14 @@ const Footer = () => {
     <footer>
       <div className="chat">
         <div className="title" onClick={toggle}>
-          Maayan {unreadCount ? `(${unreadCount})` : ""}
+          Dad {unreadCount ? `(${unreadCount})` : ""}
         </div>
         {isOpen ? (
           <React.Fragment>
             <div className="chat-messages">
               {messages.map((message, index) => (
-                <div key={index} className={index < 2 ? "" : "right"}>
-                  {message}
+                <div key={index} className={message.fromMe ? "right" : ""}>
+                  {message.text}
                 </div>
               ))}
             </div>
@@ -104,11 +117,13 @@ const Footer = () => {
     </footer>
   );
 };
-const Body = () => {
-  const messagesCount = useChatMessages(state => state.messages.length);
-  console.log("Body");
 
-  return <h1>{messagesCount}</h1>;
+let renderCount = 0;
+
+const Body = () => {
+  const messagesLength = useChatMessages(state => state.messages.length);
+
+  return <h1>Message count: {messagesLength}<br/> Render count: {++renderCount}</h1>;
 };
 
 function App() {
@@ -123,8 +138,6 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-  <ReusableProvider>
-    <App />
-  </ReusableProvider>,
+    <App />,
   rootElement
 );
