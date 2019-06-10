@@ -48,7 +48,7 @@ const Header = () => {
 
   return (
     <header>
-      {/* <div>{locale === 'en' ? 'Hello' : 'שלום'}</div> */}
+      {/* <div>{locale === 'en' ? 'Hello ReactNext 2019' : 'שלום ריאקט נקסט 2019'}</div> */}
       <div>Adam</div>
       <div>Home</div>
       <div>Create</div>
