@@ -18,7 +18,6 @@ const useChatMessages = () => {
   const [readIndex, setReadIndex] = useState(0);
     
   // const [user, setUser] = useCurrentUser();
-  // console.log(user);
 
   const addMessage = useCallback(
     text => {
