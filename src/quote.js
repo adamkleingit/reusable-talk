@@ -26,7 +26,6 @@ const quotes = [
   `Two goldfish are in a tank. One says to the other, "do you know how to drive this thing?"`,
   `What do you call a man with a rubber toe? Roberto.`,
   `I would avoid the sushi if I was you. It’s a little fishy.`,
-  `To the man in the wheelchair that stole my camouflage jacket... You can hide but you can't run.`,
   `The rotation of earth really makes my day.`,
   `I thought about going on an all-almond diet. But that's just nuts`,
   `What's brown and sticky? A stick.`,
