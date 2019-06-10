@@ -67,7 +67,7 @@ const Header = () => {
 const Footer = () => {
   const { messages, addMessage, markAsRead, unreadCount } = useChatMessages();
   const [value, setValue] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const toggle = () => {
     setIsOpen(prev => !prev);
     if (!isOpen) {
@@ -120,9 +120,9 @@ const Footer = () => {
 let renderCount = 0;
 
 const Body = () => {
-  const messagesLength = useChatMessages(state => state.messages.length);
+  const {messages} = useChatMessages();
 
-  return <h1>Message count: {messagesLength}<br/> Render count: {++renderCount}</h1>;
+  return <h1>Message count: {messages.length}<br/> Render count: {++renderCount}</h1>;
 };
 
 function App() {
