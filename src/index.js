@@ -5,11 +5,11 @@ import { LocaleSwitcher, useLocalization } from "./reusable-locale";
 import { generateQuote } from "./quote";
 import "./styles.css";
 
-// const useCurrentUser = createStore(() => {
-//   return useState('Adam');
-// })
+const useCurrentUser = createStore(() => {
+  return useState('Adam');
+})
 
-const useChatMessages = () => {
+const useChatMessages = createStore(() => {
   const [messages, setMessages] = useState([
     {text: "Hi", fromMe: false},
     {text: "How Are You?", fromMe: false},
@@ -17,7 +17,7 @@ const useChatMessages = () => {
   ]);
   const [readIndex, setReadIndex] = useState(0);
     
-  // const [user, setUser] = useCurrentUser();
+  const [user, setUser] = useCurrentUser();
 
   const addMessage = useCallback(
     text => {
@@ -40,15 +40,15 @@ const useChatMessages = () => {
     markAsRead,
     unreadCount
   };
-};
+});
 
 const Header = () => {
   const {unreadCount, markAsRead} = useChatMessages();
-  // const { locale } = useLocalization();
+  const { locale } = useLocalization();
 
   return (
     <header>
-      {/* <div>{locale === 'en' ? 'Hello ReactNext 2019' : 'שלום ריאקט נקסט 2019'}</div> */}
+      <div>{locale === 'en' ? 'Hello ReactNext 2019' : 'שלום ריאקט נקסט 2019'}</div>
       <div>Adam</div>
       <div>Home</div>
       <div>Create</div>
@@ -59,7 +59,7 @@ const Header = () => {
           ""
         )}
       </div>
-      {/* <LocaleSwitcher /> */}
+      <LocaleSwitcher />
     </header>
   );
 };
@@ -120,16 +120,16 @@ const Footer = () => {
 let renderCount = 0;
 
 const Body = () => {
-  const {messages} = useChatMessages();
+  const messagesLength = useChatMessages(state => state.messages.length);
 
-  return <h1>Message count: {messages.length}<br/> Render count: {++renderCount}</h1>;
+  return <h1>Message count: {messagesLength}<br/> Render count: {++renderCount}</h1>;
 };
 
 function App() {
   return (
     <React.Fragment>
       <Header />
-      {/* <Body /> */}
+      <Body />
       <Footer />
     </React.Fragment>
   );
@@ -137,6 +137,6 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-    <App />,
+    <ReusableProvider><App /></ReusableProvider>,
   rootElement
 );
