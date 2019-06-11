@@ -25,7 +25,7 @@ const useChatMessages = () => {
       setReadIndex(prev => prev + 1);
       setTimeout(() => {
         setMessages(prev => [...prev, {text: generateQuote(), fromMe: false}]);
-      }, 4000)
+      }, 3000)
     },
     []
   );
