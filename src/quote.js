@@ -3,7 +3,6 @@ const quotes = [
   `What do you call a fake noodle? An Impasta.`,
   `How many apples grow on a tree? All of them.`,
   `Want to hear a joke about paper? Nevermind it's tearable.`,
-  `I just watched a program about beavers. It was the best dam program I've ever seen.`,
   `Why did the coffee file a police report? It got mugged.`,
   `How does a penguin build it's house? Igloos it together.`,
   `Dad, did you get a haircut? No I got them all cut.`,
