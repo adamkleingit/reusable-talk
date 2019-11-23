@@ -46,7 +46,7 @@ footer {
   position: absolute;
   background: white;
   bottom: 0px;
-  right: 150px;
+  right: 25px;
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.2);
   padding: 10px 0;
   border-top-left-radius: 5px;
@@ -91,13 +91,12 @@ h1 {
   font-weight: bold;
 }
 .header-chat {
-  background-image: url(https://facebook.com/rsrc.php/v3/yG/r/MSGjJGW5oBb.png);
+  background-image: url(./images/messages.png);
   background-repeat: no-repeat;
-  background-size: 170px 861px;
-  background-position: -60px -332px;
-  height: 32px;
-  width: 32px;
-  margin-top: 6px;
+  background-size: contain;
+  height: 26px;
+  width: 26px;
+  margin-top: 8px;
   margin-right: 65px;
   cursor: pointer;
 }

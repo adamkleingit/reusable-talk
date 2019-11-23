@@ -2,7 +2,8 @@ import React, { useState, useCallback } from "react";
 import { createStore, ReusableProvider } from "reusable";
 import ReactDOM from "react-dom";
 import { LocaleSwitcher, useLocalization } from "./reusable-locale";
-import { generateQuote } from "./quote";
+import { ENGLISH_MESSAGE, POLISH_MESSAGE } from "./messages";
+import { generateJoke } from "./jokes";
 import "./styles.css";
 
 const useCurrentUser = createStore(() => {
@@ -11,21 +12,21 @@ const useCurrentUser = createStore(() => {
 
 const useChatMessages = createStore(() => {
   const [messages, setMessages] = useState([
-    {text: "Hi", fromMe: false},
-    {text: "How Are You?", fromMe: false},
-    {text: "I'm Fine", fromMe: true}
+    { text: "Hi", fromMe: false },
+    { text: "Wanna hear a joke?", fromMe: false }
   ]);
   const [readIndex, setReadIndex] = useState(0);
-    
+
   const [user, setUser] = useCurrentUser();
 
   const addMessage = useCallback(
     text => {
-      setMessages(prev => [...prev, {text, fromMe: true}]);
+      setMessages(prev => [...prev, { text, fromMe: true }]);
       setReadIndex(prev => prev + 1);
+      const joke = generateJoke();
       setTimeout(() => {
-        setMessages(prev => [...prev, {text: generateQuote(), fromMe: false}]);
-      }, 3000)
+        setMessages(prev => [...prev, { text: joke, fromMe: false }]);
+      }, 2000)
     },
     []
   );
@@ -43,12 +44,11 @@ const useChatMessages = createStore(() => {
 });
 
 const Header = () => {
-  const {unreadCount, markAsRead} = useChatMessages();
-  const { locale } = useLocalization();
+  // const [unreadCount, markAsRead] = [0, null];
+  const { unreadCount, markAsRead } = useChatMessages();
 
   return (
     <header>
-      <div>{locale === 'en' ? 'Hello ReactNext 2019' : 'שלום ריאקט נקסט 2019'}</div>
       <div>Adam</div>
       <div>Home</div>
       <div>Create</div>
@@ -56,8 +56,8 @@ const Header = () => {
         {unreadCount ? (
           <span className="header-chat-badge">{unreadCount}</span>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
       <LocaleSwitcher />
     </header>
@@ -91,7 +91,7 @@ const Footer = () => {
     <footer>
       <div className="chat">
         <div className="title" onClick={toggle}>
-          Dad {unreadCount ? `(${unreadCount})` : ""}
+          Dad Jokes Bot {unreadCount ? `(${unreadCount})` : ""}
         </div>
         {isOpen ? (
           <React.Fragment>
@@ -110,8 +110,8 @@ const Footer = () => {
             />
           </React.Fragment>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
     </footer>
   );
@@ -120,9 +120,15 @@ const Footer = () => {
 let renderCount = 0;
 
 const Body = () => {
-  const messagesLength = useChatMessages(state => state.messages.length);
+  const messagesLength = useChatMessages(
+    state => state.messages.length
+  );
+  const { locale } = useLocalization();
 
-  return <h1>Message count: {messagesLength}<br/> Render count: {++renderCount}</h1>;
+  return <h1>
+    <div>{locale === 'en' ? ENGLISH_MESSAGE : POLISH_MESSAGE}</div>
+    Message count: {messagesLength}<br /> Render count: {++renderCount}
+  </h1>;
 };
 
 function App() {
@@ -137,6 +143,8 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-    <ReusableProvider><App /></ReusableProvider>,
+  <ReusableProvider>
+    <App />
+  </ReusableProvider>,
   rootElement
 );
