@@ -5,7 +5,7 @@ import "moment/locale/he";
 
 export const LOCALES = {
   en: "en",
-  he: "he"
+  pl: "pl"
 };
 moment.locale(LOCALES.en);
 
