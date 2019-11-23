@@ -2,21 +2,22 @@ import React, { useState, useCallback } from "react";
 import { createStore, ReusableProvider } from "reusable";
 import ReactDOM from "react-dom";
 import { LocaleSwitcher, useLocalization } from "./reusable-locale";
+import { ENGLISH_MESSAGE, POLISH_MESSAGE } from "./messages";
 import { generateJoke } from "./jokes";
 import "./styles.css";
 
-// const useCurrentUser = createStore(() => {
-//   return useState('Adam');
-// })
+const useCurrentUser = createStore(() => {
+  return useState('Adam');
+})
 
-const useChatMessages = () => {
+const useChatMessages = createStore(() => {
   const [messages, setMessages] = useState([
     { text: "Hi", fromMe: false },
     { text: "Wanna hear a joke?", fromMe: false }
   ]);
   const [readIndex, setReadIndex] = useState(0);
 
-  // const [user, setUser] = useCurrentUser();
+  const [user, setUser] = useCurrentUser();
 
   const addMessage = useCallback(
     text => {
@@ -40,11 +41,11 @@ const useChatMessages = () => {
     markAsRead,
     unreadCount
   };
-};
+});
 
 const Header = () => {
-  const [unreadCount, markAsRead] = [0, null];
-  // const { unreadCount, markAsRead } = useChatMessages();
+  // const [unreadCount, markAsRead] = [0, null];
+  const { unreadCount, markAsRead } = useChatMessages();
 
   return (
     <header>
@@ -58,7 +59,7 @@ const Header = () => {
             ""
           )}
       </div>
-      {/* <LocaleSwitcher /> */}
+      <LocaleSwitcher />
     </header>
   );
 };
@@ -119,12 +120,14 @@ const Footer = () => {
 let renderCount = 0;
 
 const Body = () => {
-  const { messages } = useChatMessages();
-  // const { locale } = useLocalization();
+  const messagesLength = useChatMessages(
+    state => state.messages.length
+  );
+  const { locale } = useLocalization();
 
   return <h1>
-    {/* <div>{locale === 'en' ? 'Where is the water?' : 'Gdzie jest Soplica'}</div> */}
-    Message count: {messages.length}<br /> Render count: {++renderCount}
+    <div>{locale === 'en' ? ENGLISH_MESSAGE : POLISH_MESSAGE}</div>
+    Message count: {messagesLength}<br /> Render count: {++renderCount}
   </h1>;
 };
 
@@ -132,7 +135,7 @@ function App() {
   return (
     <React.Fragment>
       <Header />
-      {/* <Body /> */}
+      <Body />
       <Footer />
     </React.Fragment>
   );
@@ -140,6 +143,8 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-  <App />,
+  <ReusableProvider>
+    <App />
+  </ReusableProvider>,
   rootElement
 );
