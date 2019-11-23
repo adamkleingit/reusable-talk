@@ -45,11 +45,9 @@ const useChatMessages = () => {
 const Header = () => {
   const [unreadCount, markAsRead] = [0, null];
   // const { unreadCount, markAsRead } = useChatMessages();
-  // const { locale } = useLocalization();
 
   return (
     <header>
-      {/* <div>{locale === 'en' ? 'Hello ReactNext 2019' : 'שלום ריאקט נקסט 2019'}</div> */}
       <div>Adam</div>
       <div>Home</div>
       <div>Create</div>
@@ -122,8 +120,12 @@ let renderCount = 0;
 
 const Body = () => {
   const { messages } = useChatMessages();
+  // const { locale } = useLocalization();
 
-  return <h1>Message count: {messages.length}<br /> Render count: {++renderCount}</h1>;
+  return <h1>
+    {/* <div>{locale === 'en' ? 'Where is the water?' : 'Gdzie jest Soplica'}</div> */}
+    Message count: {messages.length}<br /> Render count: {++renderCount}
+  </h1>;
 };
 
 function App() {
