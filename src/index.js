@@ -43,7 +43,8 @@ const useChatMessages = () => {
 };
 
 const Header = () => {
-  const { unreadCount, markAsRead } = useChatMessages();
+  const [unreadCount, markAsRead] = [0, null];
+  // const { unreadCount, markAsRead } = useChatMessages();
   // const { locale } = useLocalization();
 
   return (
