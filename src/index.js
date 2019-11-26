@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { createStore, ReusableProvider } from "reusable";
 import ReactDOM from "react-dom";
 import { LocaleSwitcher, useLocalization } from "./reusable-locale";
-import { generateJoke } from "./jokes";
+import { generateMessage } from "./messages";
 import "./styles.css";
 
 // const useCurrentUser = createStore(() => {
@@ -11,8 +11,8 @@ import "./styles.css";
 
 const useChatMessages = () => {
   const [messages, setMessages] = useState([
-    { text: "Hi", fromMe: false },
-    { text: "Wanna hear a joke?", fromMe: false }
+    { text: generateMessage(), fromMe: false },
+    { text: generateMessage(), fromMe: false }
   ]);
   const [readIndex, setReadIndex] = useState(0);
 
@@ -22,10 +22,9 @@ const useChatMessages = () => {
     text => {
       setMessages(prev => [...prev, { text, fromMe: true }]);
       setReadIndex(prev => prev + 1);
-      const joke = generateJoke();
       setTimeout(() => {
-        setMessages(prev => [...prev, { text: joke, fromMe: false }]);
-      }, 2000)
+        setMessages(prev => [...prev, { text: generateMessage(), fromMe: false }]);
+      }, 3000)
     },
     []
   );
@@ -46,12 +45,16 @@ const Header = () => {
   const [unreadCount, markAsRead] = [0, null];
   // const { unreadCount, markAsRead } = useChatMessages();
 
+  const handleClick = () => {
+    markAsRead();
+  }
+
   return (
     <header>
       <div>Adam</div>
       <div>Home</div>
       <div>Create</div>
-      <div className="header-chat" onClick={markAsRead}>
+      <div className="header-chat" onClick={handleClick}>
         {unreadCount ? (
           <span className="header-chat-badge">{unreadCount}</span>
         ) : (
@@ -66,7 +69,7 @@ const Header = () => {
 const Footer = () => {
   const { messages, addMessage, markAsRead, unreadCount } = useChatMessages();
   const [value, setValue] = useState("");
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(prev => !prev);
     if (!isOpen) {
@@ -90,7 +93,7 @@ const Footer = () => {
     <footer>
       <div className="chat">
         <div className="title" onClick={toggle}>
-          Dad Jokes Bot {unreadCount ? `(${unreadCount})` : ""}
+          Lorem Ipsum {unreadCount ? `(${unreadCount})` : ""}
         </div>
         {isOpen ? (
           <React.Fragment>
