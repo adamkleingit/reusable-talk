@@ -5,40 +5,17 @@ import { LocaleSwitcher, useLocalization } from "./reusable-locale";
 import { generateMessage } from "./messages";
 import "./styles.css";
 
-// const useCurrentUser = createStore(() => {
-//   return useState('Adam');
+// const useConfig = createStore(() => {
+//   return useState({delay: 3000});
 // })
 
 const useChatMessages = () => {
-  const [messages, setMessages] = useState([
-    { text: generateMessage(), fromMe: false },
-    { text: generateMessage(), fromMe: false }
-  ]);
-  const [readIndex, setReadIndex] = useState(0);
-
-  // const [user, setUser] = useCurrentUser();
-
-  const addMessage = useCallback(
-    text => {
-      setMessages(prev => [...prev, { text, fromMe: true }]);
-      setReadIndex(prev => prev + 1);
-      setTimeout(() => {
-        setMessages(prev => [...prev, { text: generateMessage(), fromMe: false }]);
-      }, 3000)
-    },
-    []
-  );
-  const markAsRead = useCallback(() => setReadIndex(messages.length), [
-    messages.length
-  ]);
-  const unreadCount = messages.length - readIndex;
-
-  return {
-    messages,
-    addMessage,
-    markAsRead,
-    unreadCount
-  };
+  // return {
+  //   messages,
+  //   addMessage,
+  //   markAsRead,
+  //   unreadCount
+  // };
 };
 
 const Header = () => {
@@ -47,7 +24,7 @@ const Header = () => {
 
   const handleClick = () => {
     markAsRead();
-  }
+  };
 
   return (
     <header>
@@ -58,8 +35,8 @@ const Header = () => {
         {unreadCount ? (
           <span className="header-chat-badge">{unreadCount}</span>
         ) : (
-            ""
-          )}
+          ""
+        )}
       </div>
       {/* <LocaleSwitcher /> */}
     </header>
@@ -67,7 +44,29 @@ const Header = () => {
 };
 
 const Footer = () => {
-  const { messages, addMessage, markAsRead, unreadCount } = useChatMessages();
+  const [messages, setMessages] = useState([
+    { text: generateMessage(), fromMe: false },
+    { text: generateMessage(), fromMe: false }
+  ]);
+  const [readIndex, setReadIndex] = useState(0);
+
+  const addMessage = useCallback(text => {
+    setMessages(prev => [...prev, { text, fromMe: true }]);
+    setReadIndex(prev => prev + 1);
+    setTimeout(() => {
+      setMessages(prev => [
+        ...prev,
+        { text: generateMessage(), fromMe: false }
+      ]);
+    }, 3000);
+  }, []);
+  const markAsRead = useCallback(() => setReadIndex(messages.length), [
+    messages.length
+  ]);
+  const unreadCount = messages.length - readIndex;
+
+  // const { messages, addMessage, markAsRead, unreadCount } = useChatMessages();
+
   const [value, setValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
@@ -112,8 +111,8 @@ const Footer = () => {
             />
           </React.Fragment>
         ) : (
-            ""
-          )}
+          ""
+        )}
       </div>
     </footer>
   );
@@ -125,10 +124,13 @@ const Body = () => {
   const { messages } = useChatMessages();
   // const { locale } = useLocalization();
 
-  return <h1>
-    {/* <div>{locale === 'en' ? 'Where is the water?' : 'Gdzie jest Soplica'}</div> */}
-    Message count: {messages.length}<br /> Render count: {++renderCount}
-  </h1>;
+  return (
+    <h1>
+      {/* <div>{locale === 'en' ? 'Where is the water?' : 'איפה הבירה?'}</div> */}
+      Message count: {messages.length}
+      <br /> Render count: {++renderCount}
+    </h1>
+  );
 };
 
 function App() {
@@ -142,7 +144,4 @@ function App() {
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(
-  <App />,
-  rootElement
-);
+ReactDOM.render(<App />, rootElement);
