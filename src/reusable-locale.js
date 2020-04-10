@@ -4,8 +4,8 @@ import moment from "moment";
 import "moment/locale/he";
 
 export const LOCALES = {
-  en: "en",
-  he: "he"
+  en: "US",
+  gb: "GB",
 };
 moment.locale(LOCALES.en);
 
@@ -27,8 +27,8 @@ export const LocaleSwitcher = () => {
   const { locale, setLocale } = useLocalization();
 
   return (
-    <select value={locale} onChange={e => setLocale(e.target.value)}>
-      {Object.keys(LOCALES).map(key => (
+    <select value={locale} onChange={(e) => setLocale(e.target.value)}>
+      {Object.keys(LOCALES).map((key) => (
         <option key={key} value={LOCALES[key]}>
           {LOCALES[key]}
         </option>

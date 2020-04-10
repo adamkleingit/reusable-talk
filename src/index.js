@@ -128,7 +128,7 @@ const Body = () => {
 
   return (
     <h1>
-      {/* <div>{locale === 'en' ? 'Where is the water?' : 'איפה הבירה?'}</div> */}
+      {/* <div>{locale === 'US' ? 'Where is the water?' : 'Where is the wa er?'}</div> */}
       Message count: {messages.length}
       <br /> Render count: {++renderCount}
     </h1>
