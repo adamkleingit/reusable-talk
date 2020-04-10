@@ -5,6 +5,11 @@ import { LocaleSwitcher, useLocalization } from "./reusable-locale";
 import { generateMessage } from "./messages";
 import "./styles.css";
 
+const initialMessages = [
+  { text: generateMessage(), fromMe: false },
+  { text: generateMessage(), fromMe: false },
+];
+
 // const useConfig = createStore(() => {
 //   return useState({delay: 3000});
 // })
@@ -44,24 +49,21 @@ const Header = () => {
 };
 
 const Footer = () => {
-  const [messages, setMessages] = useState([
-    { text: generateMessage(), fromMe: false },
-    { text: generateMessage(), fromMe: false }
-  ]);
+  const [messages, setMessages] = useState(initialMessages);
   const [readIndex, setReadIndex] = useState(0);
 
-  const addMessage = useCallback(text => {
-    setMessages(prev => [...prev, { text, fromMe: true }]);
-    setReadIndex(prev => prev + 1);
+  const addMessage = useCallback((text) => {
+    setMessages((prev) => [...prev, { text, fromMe: true }]);
+    setReadIndex((prev) => prev + 1);
     setTimeout(() => {
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
-        { text: generateMessage(), fromMe: false }
+        { text: generateMessage(), fromMe: false },
       ]);
     }, 3000);
   }, []);
   const markAsRead = useCallback(() => setReadIndex(messages.length), [
-    messages.length
+    messages.length,
   ]);
   const unreadCount = messages.length - readIndex;
 
@@ -70,17 +72,17 @@ const Footer = () => {
   const [value, setValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
-    setIsOpen(prev => !prev);
+    setIsOpen((prev) => !prev);
     if (!isOpen) {
       markAsRead();
     }
   };
 
-  const handleChange = useCallback(e => {
+  const handleChange = useCallback((e) => {
     setValue(e.target.value);
   }, []);
   const handleKeyPress = useCallback(
-    e => {
+    (e) => {
       if (e.key === "Enter" && value) {
         addMessage(value);
         setValue("");
